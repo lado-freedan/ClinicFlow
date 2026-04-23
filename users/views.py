@@ -1,3 +1,10 @@
 from django.shortcuts import render
+from rest_framework.generics import ListAPIView
 
-# Create your views here.
+from .models import User, DoctorProfile
+from .serializers import DoctorSerializer
+
+
+class DoctorListView(ListAPIView):
+    queryset = DoctorProfile.objects.all()
+    serializer_class = DoctorSerializer

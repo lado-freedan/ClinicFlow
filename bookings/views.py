@@ -2,9 +2,11 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.generics import ListAPIView
 
 from .services import create_slots_for_doctor
 from .serializers import SlotSerializer
+from .models import Slot
 
 
 class SlotCreateView(APIView):
@@ -28,3 +30,11 @@ class SlotCreateView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+class AvailableSlotView(ListAPIView):
+    serializer_class = SlotSerializer
+
+    def get_queryset(self):
+        doctor_id = self.kwargs["doctor_id"]
+        return Slot.objects.filter(doctor_id=doctor_id, is_booked=False)
