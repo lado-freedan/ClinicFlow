@@ -18,7 +18,7 @@ class Slot(models.Model):
         return f"Dr. {self.doctor.user.last_name} | {self.start_time.strftime("%Y-%m-%d %H:%M")}"
     
 
-class Apointment(models.Model):
+class Appointment(models.Model):
     class Status(models.TextChoices):
         PENDING = "pending", "Pending"
         CONFIRMED = "confirmed", "Confirmed"
